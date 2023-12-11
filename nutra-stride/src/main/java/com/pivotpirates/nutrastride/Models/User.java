@@ -1,10 +1,14 @@
 package com.pivotpirates.nutrastride.Models;
-import javax.persistence.Entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class User extends AbstractEntity {
+
+    @Id
+    private Long id;
 
     @NotNull
     private String username;
@@ -12,7 +16,8 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -22,5 +27,4 @@ public class User extends AbstractEntity {
     public String getUsername() {
         return username;
     }
-
 }
