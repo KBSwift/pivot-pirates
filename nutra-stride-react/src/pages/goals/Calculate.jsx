@@ -1,4 +1,7 @@
 export default function Calculate() {
+
+
+  
   return (
     <div className="calculate">
       <h3>Calculate your TDEE</h3>

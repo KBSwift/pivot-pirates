@@ -8,6 +8,7 @@ export default function RootLayout() {
           <h1>NutraStride+WeatherFit</h1>
           <NavLink to="/">Home</NavLink>
           <NavLink to="nutralog">NutraLog</NavLink>
+          <NavLink to="stridelog">StrideLog</NavLink>
           <NavLink to="goals">Goals</NavLink>
         </nav>
       </header>
