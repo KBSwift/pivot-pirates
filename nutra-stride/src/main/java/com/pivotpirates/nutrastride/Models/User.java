@@ -3,6 +3,7 @@ package com.pivotpirates.nutrastride.Models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User extends AbstractEntity {
@@ -15,6 +16,8 @@ public class User extends AbstractEntity {
 
     @NotNull
     private String pwHash;
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User() {
     }

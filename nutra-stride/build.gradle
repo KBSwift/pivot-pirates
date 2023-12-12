@@ -11,12 +11,6 @@ java {
 	sourceCompatibility = '17'
 }
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
 repositories {
 	mavenCentral()
 }
@@ -29,7 +23,8 @@ dependencies {
 	implementation 'org.jetbrains:annotations:22.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.0'
 	implementation 'org.springframework.boot:spring-boot-gradle-plugin:3.2.0'
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation 'org.springframework.security:spring-security-crypto:6.2.0'
+	implementation 'org.springframework.security:spring-security-core:6.2.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools:3.2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.0'
 }
@@ -38,6 +33,6 @@ jar {
 	archiveFileName = "${project.name}-${project.version}.jar"
 }
 
-//tasks.named('test') {
-//	useJUnitPlatform()
-//}
+tasks.named('test') {
+	useJUnitPlatform()
+}
