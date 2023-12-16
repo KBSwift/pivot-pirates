@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User extends AbstractEntity {
+public class User extends AbstractEntity{
 
     @Id
     private Long id;
@@ -16,6 +16,10 @@ public class User extends AbstractEntity {
 
     @NotNull
     private String pwHash;
+
+    public Long getId() {
+        return id;
+    }
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -29,5 +33,9 @@ public class User extends AbstractEntity {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 }
