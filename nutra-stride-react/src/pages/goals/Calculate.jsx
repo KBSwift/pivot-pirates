@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 export default function Calculate() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("male");
@@ -6,17 +7,21 @@ export default function Calculate() {
   const [height, setHeight] = useState("");
   const [activityLevel, setActivityLevel] = useState("sedentary");
   const [goal, setGoal] = useState("maintain");
+
   const calculateTDEE = () => {
     const parsedWeight = parseFloat(weight);
     const parsedHeight = parseFloat(height);
+
     if (isNaN(parsedWeight) || isNaN(parsedHeight)) {
       console.error("Invalid weight or height");
       return;
     }
+
     const bmr =
       gender === "male"
         ? 66.47 + 6.23 * parsedWeight + 12.7 * parsedHeight - 6.8 * age
         : 655.1 + 4.35 * parsedWeight + 4.7 * parsedHeight - 4.7 * age;
+
     const activityMultipliers = {
       sedentary: 1.2,
       light: 1.375,
@@ -24,15 +29,20 @@ export default function Calculate() {
       active: 1.725,
       veryActive: 1.9,
     };
+
     const tdee = bmr * activityMultipliers[activityLevel];
+
     const goalMultipliers = {
       lose: 0.8,
       maintain: 1.0,
       gain: 1.2,
     };
+
     const adjustedTDEE = tdee * goalMultipliers[goal];
+
     console.log(`Calculated TDEE is ${adjustedTDEE}`);
   };
+
   return (
     <div className="calculate">
       <h3>Calculate your TDEE</h3>

@@ -10,7 +10,7 @@ body {
   font-family: "Poppins";
   background: var(--secondary);
 }
-{
+* {
 color: #fff;
 margin: 0;
 }
@@ -25,7 +25,7 @@ button {
   background: var(--primary);
   cursor: pointer;
 }
-/LOGIN/
+/*LOGIN*/
 .login h1 {
   margin-right: auto;
   border-bottom: 3px solid var(--primary);
@@ -39,7 +39,7 @@ button {
   font-size: 20px;
   font-weight: 1;
 }
-/NAVBAR/
+/*NAVBAR*/
 header nav {
   display: flex;
   gap: 16px;
@@ -59,12 +59,12 @@ header nav a {
 header nav a.active {
   background: var(--primary);
 }
-/PAGE CONTENT/
+/*PAGE CONTENT*/
 main {
   max-width: 1200px;
   margin: 40px auto;
 }
-/GOALS LAYOUT/
+/*GOALS LAYOUT*/
 .goals-layout nav {
   display: flex;
   justify-content: center;
@@ -90,7 +90,7 @@ main {
   border-radius: 4px;
   margin: 20px 0;
 }
-/CALCULATE FORM/
+/*CALCULATE FORM*/
 form {
   margin-top: 15px;
 }
