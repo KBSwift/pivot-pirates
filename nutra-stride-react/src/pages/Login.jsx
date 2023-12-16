@@ -1,21 +1,26 @@
 import { useState } from "react";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleLogin = () => {
     //implementation of logic
   };
+
   const handleUserChange = (e) => {
     setEmail(e.target.value);
   };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   return (
     <div className="login">
       <h1>NutraStride+WeatherFit</h1>
       <br />
       <br />
+
       <h2>Login</h2>
       <form>
         <label htmlFor="loginemail">Email: </label>
@@ -38,8 +43,10 @@ export default function Login() {
           Login
         </button>
       </form>
+
       <br />
       <br />
+
       <h2 id="signup">No account with us yet? Register now:</h2>
       <form>
         <label htmlFor="registeremail">Email: </label>
