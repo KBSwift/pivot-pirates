@@ -1,14 +1,16 @@
 package com.pivotpirates.nutrastride.Models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User extends AbstractEntity{
+public class Users extends AbstractEntity{
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -23,12 +25,12 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User() {
+    public Users() {
     }
 
-    public User(String username, String password) {
+    public Users(String username, String password) {
         this.username = username;
-        this.pwHash = password;
+        this.pwHash = encoder.encode(password);
     }
 
     public String getUsername() {
