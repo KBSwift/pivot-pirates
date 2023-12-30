@@ -1,19 +1,55 @@
 import { useState } from "react";
 
-export default function NutraLog() {
+const NutraLog = () => {
   const [foodItem, setFoodItem] = useState("");
   const [calories, setCalories] = useState("");
+  const [logError, setLogError] = useState(null);
+  const [loggedItems, setLoggedItems] = useState([]);
 
-  const logFood = () => {
-    //food logging logic
-    console.log(`Logging food: ${foodItem}, calories ${calories}`);
+  const logFood = async () => {
+    const appId = "8dd733fb";
+    const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
+
+    const apiUrl = `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ingr: [foodItem], // An array of food items to analyze
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        console.log("Data from API:", data); 
+
+        // Update the list of logged items
+        setLoggedItems((prevItems) => [
+          ...prevItems,
+          { foodItem, calories: data.calories },
+        ]);
+
+        // Update state with the calories information
+        setCalories(data.calories);
+        console.log(`Logged food: ${foodItem}, calories: ${data.calories}`);
+      } else {
+        const data = await response.json();
+        setLogError(data.message);
+        console.error("Food logging failed:", data.message);
+      }
+    } catch (error) {
+      setLogError("An unexpected error occurred during food logging.");
+      console.error("Error during food logging:", error);
+    }
   };
 
   const handleFoodChange = (e) => {
     setFoodItem(e.target.value);
-  };
-  const handleCalorieChange = (e) => {
-    setCalories(e.target.value);
   };
 
   return (
@@ -30,18 +66,24 @@ export default function NutraLog() {
           />
         </label>
         <br />
-        <label htmlFor="calories">
-          Calories
-          <input
-            id="calories"
-            type="number"
-            value={calories}
-            onChange={handleCalorieChange}
-          />
-        </label>
-        <br />
         <button onClick={logFood}>Log item</button>
+        {calories && <p>Calories: {calories}</p>}
+        {logError && <p style={{ color: "red" }}>{logError}</p>}
+        {loggedItems.length > 0 && (
+          <div>
+            <h3>Logged Items</h3>
+            <ul>
+              {loggedItems.map((item, index) => (
+                <li key={index}>
+                  {item.foodItem} - Calories: {item.calories}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </form>
     </div>
   );
-}
+};
+
+export default NutraLog;
