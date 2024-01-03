@@ -7,7 +7,10 @@ const NutraLog = () => {
   const [logError, setLogError] = useState(null);
   const [loggedItems, setLoggedItems] = useState([]);
 
-  const logFood = async () => {
+  const logFood = async (e) => {
+
+    e.preventDefault();
+
     const appId = "8dd733fb";
     const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
 
@@ -15,7 +18,9 @@ const NutraLog = () => {
 
     try {
       const response = await axios.post(apiUrl, {
+        params: {
         ingr: [foodItem], // An array of food items to analyze
+        },
       });
 
       if (response.status === 200) {

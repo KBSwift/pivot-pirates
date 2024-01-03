@@ -2,13 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [registerError, setRegisterError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await fetch("http://backend-url/login", {
         method: "POST",
@@ -16,8 +20,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: email,
-          password: password,
+          username: loginEmail,
+          password: loginPassword,
         }),
       });
 
@@ -43,8 +47,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: email,
-          password: password,
+          username: registerEmail,
+          password: registerPassword,
         }),
       });
 
@@ -62,12 +66,20 @@ export default function Login() {
     }
   };
 
-  const handleUserChange = (e) => {
-    setEmail(e.target.value);
+  const handleLoginUserChange = (e) => {
+    setLoginEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handleLoginPasswordChange = (e) => {
+    setLoginPassword(e.target.value);
+  };
+
+  const handleRegisterUserChange = (e) => {
+    setRegisterEmail(e.target.value);
+  };
+
+  const handleRegisterPasswordChange = (e) => {
+    setRegisterPassword(e.target.value);
   };
 
   return (
@@ -82,17 +94,17 @@ export default function Login() {
         <input
           id="loginemail"
           type="email"
-          value={email}
+          value={loginEmail}
           required
-          onChange={handleUserChange}
+          onChange={handleLoginUserChange}
         />
         <label htmlFor="loginpassword">Password: </label>
         <input
           id="loginpassword"
           type="password"
-          value={password}
+          value={loginPassword}
           required
-          onChange={handlePasswordChange}
+          onChange={handleLoginPasswordChange}
         />
         {loginError && <p style={{ color: "red" }}>{loginError}</p>}
         <button type="submit" onClick={handleLogin}>
@@ -109,17 +121,17 @@ export default function Login() {
         <input
           id="registeremail"
           type="email"
-          value={email}
+          value={registerEmail}
           required
-          onChange={handleUserChange}
+          onChange={handleRegisterUserChange}
         />
         <label htmlFor="registerpassword">Password: </label>
         <input
           id="registerpassword"
           type="password"
-          value={password}
+          value={registerPassword}
           required
-          onChange={handlePasswordChange}
+          onChange={handleRegisterPasswordChange}
         />
         {registerError && <p style={{ color: "red" }}>{registerError}</p>}
         <button type="submit" onClick={handleRegister}>
