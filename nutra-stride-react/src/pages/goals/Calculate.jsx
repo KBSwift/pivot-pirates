@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Calculate() {
   const [age, setAge] = useState("");
@@ -7,6 +7,7 @@ export default function Calculate() {
   const [height, setHeight] = useState("");
   const [activityLevel, setActivityLevel] = useState("sedentary");
   const [goal, setGoal] = useState("maintain");
+  const [calculatedTDEE, setCalculatedTDEE] = useState(0);
 
   const calculateTDEE = () => {
     const parsedWeight = parseFloat(weight);
@@ -40,12 +41,18 @@ export default function Calculate() {
 
     const adjustedTDEE = tdee * goalMultipliers[goal];
 
+    setCalculatedTDEE(adjustedTDEE);
     console.log(`Calculated TDEE is ${adjustedTDEE}`);
   };
 
+  useEffect(() => {
+    // Fetch initial TDEE on page load
+    calculateTDEE();
+  }, []); // Empty dependency array ensures it only runs once on mount
+
   return (
     <div className="calculate">
-      <h3>Calculate your TDEE</h3>
+      <h2>Calculate your TDEE</h2>
       <form>
         <label>
           Age:
@@ -109,6 +116,8 @@ export default function Calculate() {
           Calculate TDEE
         </button>
       </form>
+
+      <h2 id="tdee">TDEE: {Math.floor(calculatedTDEE)}</h2>
     </div>
   );
 }
