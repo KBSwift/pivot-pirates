@@ -14,7 +14,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://backend-url/login", {
+      const response = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function Login() {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch("http://backend-url/register", {
+      const response = await fetch("http://localhost:8080/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
