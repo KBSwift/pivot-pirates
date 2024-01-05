@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin (origins = "http://localhost:5173", maxAge = 3600)
 public class AuthenticationController extends AbstractEntity {
 
     //Allows interaction between AC and UR
@@ -49,6 +51,7 @@ public class AuthenticationController extends AbstractEntity {
     }
     //Handles POST requests to the /register endpoint
     @PostMapping("/register")
+    @CrossOrigin
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
@@ -82,6 +85,7 @@ public class AuthenticationController extends AbstractEntity {
         return "redirect:";
     }
     //Handles POST requests to the /login endpoint
+    @CrossOrigin
     @PostMapping("/login")
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
