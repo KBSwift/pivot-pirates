@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 const NutraLog = () => {
   const [foodItem, setFoodItem] = useState("");
@@ -6,27 +7,26 @@ const NutraLog = () => {
   const [logError, setLogError] = useState(null);
   const [loggedItems, setLoggedItems] = useState([]);
 
-  const logFood = async () => {
+  const logFood = async (e) => {
+
+    e.preventDefault();
+
     const appId = "8dd733fb";
     const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
 
     const apiUrl = `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}`;
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(apiUrl, {
+        params: {
+        ingr: [foodItem], // An array of food items to analyze
         },
-        body: JSON.stringify({
-          ingr: [foodItem], // An array of food items to analyze
-        }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = response.data;
 
-        console.log("Data from API:", data); 
+        console.log("Data from API:", data);
 
         // Update the list of logged items
         setLoggedItems((prevItems) => [
@@ -38,9 +38,8 @@ const NutraLog = () => {
         setCalories(data.calories);
         console.log(`Logged food: ${foodItem}, calories: ${data.calories}`);
       } else {
-        const data = await response.json();
-        setLogError(data.message);
-        console.error("Food logging failed:", data.message);
+        setLogError(response.data.message);
+        console.error("Food logging failed:", response.data.message);
       }
     } catch (error) {
       setLogError("An unexpected error occurred during food logging.");
