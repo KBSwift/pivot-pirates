@@ -3,6 +3,8 @@ import { useState } from "react";
 export default function StrideLog() {
   const [milesRun, setMilesRun] = useState(0);
   const [stepCount, setStepCount] = useState(0);
+  const [submittedMiles, setSubmittedMiles] = useState(null);
+  const [submittedSteps, setSubmittedSteps] = useState(null);
 
   const handleMilesRunChange = (e) => {
     setMilesRun(e.target.value);
@@ -14,10 +16,10 @@ export default function StrideLog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //TODO: Handle submit for activity logging
-  };
 
-  //TODO: Add useEffect hook to fetch weather data using API
+    setSubmittedMiles(milesRun);
+    setSubmittedSteps(stepCount);
+  };
 
   return (
     <div>
@@ -46,6 +48,9 @@ export default function StrideLog() {
         <br />
         <button type="submit">Log Activity</button>
       </form>
+
+      <h2 className="stridecount">Total miles: {submittedMiles}</h2>
+      <h2 className="stridecount">Total steps: {submittedSteps}</h2>
     </div>
   );
 }
