@@ -19,13 +19,14 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({
           username: loginEmail,
           password: loginPassword,
         }),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Login successful");
         navigate("/home");
       } else {
@@ -52,7 +53,7 @@ export default function Login() {
         }),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Registration successful");
         navigate("/home");
       } else {
