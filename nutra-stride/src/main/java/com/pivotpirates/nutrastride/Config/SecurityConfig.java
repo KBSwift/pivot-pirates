@@ -1,3 +1,5 @@
+package com.pivotpirates.nutrastride.Config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +15,15 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/register").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
+
+        http.csrf().disable();
+
+        http.headers().frameOptions().disable();
+
         return http.build();
     }
 }

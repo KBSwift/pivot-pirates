@@ -12,15 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
-@CrossOrigin (origins = "http://localhost:5173", maxAge = 3600)
+@RestController
+@CrossOrigin (origins = "http://localhost:5173", maxAge = 3600, allowCredentials = "true")
 public class AuthenticationController extends AbstractEntity {
 
     //Allows interaction between AC and UR
@@ -55,35 +52,56 @@ public class AuthenticationController extends AbstractEntity {
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
-        //checks for validation errors
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Register");
-            return "register";
-        }
-        //checks that a user with the given username exists
-        Users existingUsers = userRepository.findByUsername(registerFormDTO.getUsername());
+        try {
+            // Log received values
+            System.out.println("Received registration request with username: " + registerFormDTO.getUsername());
+            System.out.println("Received registration request with password: " + registerFormDTO.getPassword());
+            System.out.println("Received registration request with verifyPassword: " + registerFormDTO.getVerifyPassword());
 
-        if (existingUsers != null) {
-            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
-            model.addAttribute("title", "Register");
-            return "register";
+            // Check for validation errors
+            if (errors.hasErrors()) {
+                System.out.println("Validation errors occurred:");
+                errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+                model.addAttribute("title", "Register");
+                return "register";
+            }
+
+            // Check if a user with the given username already exists
+            Users existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
+            if (existingUser != null) {
+                errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+                model.addAttribute("title", "Register");
+                return "register";
+            }
+
+            // Check that password and verifyPassword match
+            String password = registerFormDTO.getPassword();
+            String verifyPassword = registerFormDTO.getVerifyPassword();
+            if (!password.equals(verifyPassword)) {
+                errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
+                model.addAttribute("title", "Register");
+                return "register";
+            }
+
+            // Create a new user object and save it to the database
+            Users newUser = new Users(registerFormDTO.getUsername(), password);
+            userRepository.save(newUser);
+
+            // Set the user in the session
+            setUserInSession(request.getSession(), newUser);
+
+            // Redirect to /, which prevents the user from re-submitting the form if they refresh
+            return "redirect:/";
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exceptions or log additional error information
+            // Optionally, you might want to return an error view or message
+            model.addAttribute("error", "An unexpected error occurred during registration.");
+            return "error";
         }
-        //checks that password and verifypassword match
-        String password = registerFormDTO.getPassword();
-        String verifyPassword = registerFormDTO.getVerifyPassword();
-        if (!password.equals(verifyPassword)) {
-            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-            model.addAttribute("title", "Register");
-            return "register";
-        }
-        //Create a new user object, and save it to the database
-        Users newUsers = new Users(registerFormDTO.getUsername(), registerFormDTO.getPassword());
-        userRepository.save(newUsers);
-        //Set the user in the session
-        setUserInSession(request.getSession(), newUsers);
-        //Redirect to /, which prevents the user from re-submitting the form if they refresh
-        return "redirect:";
     }
+
     //Handles POST requests to the /login endpoint
     @CrossOrigin
     @PostMapping("/login")
