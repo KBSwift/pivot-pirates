@@ -15,13 +15,12 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/login","/register").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
 
         http.csrf().disable();
-
         http.headers().frameOptions().disable();
 
         return http.build();
