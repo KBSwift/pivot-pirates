@@ -40,7 +40,14 @@ export default function Login() {
     }
   };
 
- const handleRegister = async () => {
+ const handleRegister = async (e) => {
+ e.preventDefault();
+ e.stopPropagation();
+ console.log("Form submitted");
+
+   console.log("Register Email:", registerEmail);
+   console.log("Register Password:", registerPassword);
+
    try {
      const response = await fetch("http://localhost:8080/register", {
        method: "POST",
@@ -50,6 +57,7 @@ export default function Login() {
        body: JSON.stringify({
          username: registerEmail,
          password: registerPassword,
+         verifyPassword: registerPassword,
        }),
        credentials: 'include',
      });
@@ -91,10 +99,12 @@ export default function Login() {
 
   const handleRegisterUserChange = (e) => {
     setRegisterEmail(e.target.value);
+    console.log("Email:", e.target.value);
   };
 
   const handleRegisterPasswordChange = (e) => {
     setRegisterPassword(e.target.value);
+    console.log("Password:", e.target.value);
   };
 
   return (

@@ -22,6 +22,7 @@ public class CorsConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
         config.addExposedHeader("Access-Control-Allow-Credentials");
+        config.addExposedHeader("Access-Control-Allow-Origin");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

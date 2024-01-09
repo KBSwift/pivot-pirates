@@ -17,19 +17,23 @@ public class LoginFormDTO {
         private String password;
 
         public String getUsername() {
+            System.out.println("Get Username called: " + username);
             return username;
         }
 
         public void setUsername(String username) {
             this.username = username;
+            System.out.println("Username set to: " + username);
         }
 
         public String getPassword() {
+            System.out.println("Get Password called: " + password);
             return password;
         }
 
         public void setPassword(String password) {
             this.password = password;
+            System.out.println("Password set to: " + password);
         }
 
 }

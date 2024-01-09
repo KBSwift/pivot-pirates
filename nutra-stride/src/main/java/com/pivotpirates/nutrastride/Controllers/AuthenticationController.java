@@ -26,7 +26,7 @@ public class AuthenticationController extends AbstractEntity {
 
     private static final String userSessionKey = "user";
 
-    //HttpSession, represents the sesssion associated with the current users use of the application
+    //HttpSession, represents the session associated with the current users use of the application
     public Users getUserFromSession(HttpSession session) {
         //Retrieves user Id, if null, returns null
         Integer userId = (Integer) session.getAttribute(userSessionKey);
@@ -49,7 +49,7 @@ public class AuthenticationController extends AbstractEntity {
     //Handles POST requests to the /register endpoint
     @PostMapping("/register")
     @CrossOrigin
-    public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
+    public String processRegistrationForm(@RequestBody @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
         try {
@@ -57,6 +57,8 @@ public class AuthenticationController extends AbstractEntity {
             System.out.println("Received registration request with username: " + registerFormDTO.getUsername());
             System.out.println("Received registration request with password: " + registerFormDTO.getPassword());
             System.out.println("Received registration request with verifyPassword: " + registerFormDTO.getVerifyPassword());
+
+            System.out.println("Received registration form: " + registerFormDTO.toString());
 
             // Check for validation errors
             if (errors.hasErrors()) {
@@ -66,7 +68,6 @@ public class AuthenticationController extends AbstractEntity {
                 model.addAttribute("title", "Register");
                 return "register";
             }
-
             // Check if a user with the given username already exists
             Users existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
             if (existingUser != null) {
