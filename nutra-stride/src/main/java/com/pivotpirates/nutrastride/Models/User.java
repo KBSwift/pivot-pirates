@@ -1,5 +1,4 @@
 package com.pivotpirates.nutrastride.Models;
-import javax.persistence.Entity;
 
 import org.jetbrains.annotations.NotNull;
 

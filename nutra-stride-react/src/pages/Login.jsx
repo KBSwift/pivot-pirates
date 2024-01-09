@@ -19,7 +19,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({
           username: loginEmail,
           password: loginPassword,
@@ -40,7 +40,9 @@ export default function Login() {
     }
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await fetch("http://localhost:8080/register", {
         method: "POST",
