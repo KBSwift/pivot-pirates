@@ -84,6 +84,7 @@ export default function Login() {
         navigate("/");
       }
     } catch (error) {
+      setRegisterError("An unexpected error occurred.");
       console.error("Error during registration:", error);
     }
   };
