@@ -122,3 +122,22 @@ form label span {
 #tdee {
   margin-top: 30px;
 }
+
+/* WEATHER WIDGET */
+.weather-widget {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-left: 16px; /* Adjust spacing as needed */
+}
+
+.weather-widget p {
+  margin: 0;
+  color: #fff;
+}
+
+/* TEMPERATURE MESSAGE */
+.temperature-message {
+  color: orangered;
+  font-weight: bold;
+}
