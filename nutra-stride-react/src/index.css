@@ -24,6 +24,7 @@ button {
   color: white;
   background: var(--primary);
   cursor: pointer;
+  margin-bottom: 30px;
 }
 /*LOGIN*/
 .login h1 {
@@ -128,7 +129,7 @@ form label span {
   background: rgba(0, 0, 0, 0.2);
   padding: 5px 10px;
   border-radius: 4px;
-  margin-left: 16px; /* Adjust spacing as needed */
+  margin-left: 16px; 
 }
 
 .weather-widget p {
@@ -140,4 +141,19 @@ form label span {
 .temperature-message {
   color: orangered;
   font-weight: bold;
+}
+
+
+.nutralog form ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nutralog form li {
+  display: flex;
+  align-items: center;
+}
+
+.nutralog form li button {
+  margin: 30px; 
 }
