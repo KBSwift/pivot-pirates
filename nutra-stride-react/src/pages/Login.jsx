@@ -28,7 +28,7 @@ export default function Login() {
 
       if (response.ok) {
         console.log("Login successful");
-        navigate("/home");
+        navigate("/");
       } else {
         const data = await response.json();
         setLoginError(data.message);
@@ -81,7 +81,7 @@ export default function Login() {
         console.error("Registration failed:", data.message);
       } else {
         console.log("Registration successful");
-        navigate("/home");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error during registration:", error);
