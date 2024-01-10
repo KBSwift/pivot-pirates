@@ -19,16 +19,16 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           username: loginEmail,
           password: loginPassword,
         }),
+        credentials: "include",
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         console.log("Login successful");
-        navigate("/");
+        navigate("/home");
       } else {
         const data = await response.json();
         setLoginError(data.message);
@@ -42,6 +42,11 @@ export default function Login() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    console.log("Form submitted");
+
+    console.log("Register Email:", registerEmail);
+    console.log("Register Password:", registerPassword);
 
     try {
       const response = await fetch("http://localhost:8080/register", {
@@ -52,20 +57,34 @@ export default function Login() {
         body: JSON.stringify({
           username: registerEmail,
           password: registerPassword,
+          verifyPassword: registerPassword,
         }),
+        credentials: "include",
       });
 
-      if (response.status === 200) {
-        console.log("Registration successful");
-        navigate("/");
-      } else {
+      console.log("Request:", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: registerEmail,
+          password: registerPassword,
+        }),
+        credentials: "include",
+      });
+
+      console.log("Received response:", response);
+
+      if (!response.ok) {
         const data = await response.json();
-        setRegisterError(data.message);
         console.error("Registration failed:", data.message);
+      } else {
+        console.log("Registration successful");
+        navigate("/home");
       }
     } catch (error) {
-      setRegisterError("An unexpected error occurred during registration.");
-      console.error("Registration error:", error);
+      console.error("Error during registration:", error);
     }
   };
 
@@ -79,10 +98,12 @@ export default function Login() {
 
   const handleRegisterUserChange = (e) => {
     setRegisterEmail(e.target.value);
+    console.log("Email:", e.target.value);
   };
 
   const handleRegisterPasswordChange = (e) => {
     setRegisterPassword(e.target.value);
+    console.log("Password:", e.target.value);
   };
 
   return (
@@ -119,7 +140,7 @@ export default function Login() {
       <br />
 
       <h2 id="signup">No account with us yet? Register now:</h2>
-      <form>
+      <form onSubmit={handleRegister}>
         <label htmlFor="registeremail">Email: </label>
         <input
           id="registeremail"
