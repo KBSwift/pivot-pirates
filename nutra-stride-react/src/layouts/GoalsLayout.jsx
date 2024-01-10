@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function GoalsLayout() {
   return (
-    <div className="goals-layout">
+    <span className="goals-layout">
       <h2>Personal Goals</h2>
       <p>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro officia
@@ -17,6 +17,6 @@ export default function GoalsLayout() {
       </nav>
 
       <Outlet />
-    </div>
+    </span>
   );
 }

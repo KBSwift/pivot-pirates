@@ -51,7 +51,7 @@ export default function Calculate() {
   }, []); // Empty dependency array ensures it only runs once on mount
 
   return (
-    <div className="calculate">
+    <span className="calculate">
       <h2>Calculate your TDEE</h2>
       <form>
         <label>
@@ -118,6 +118,6 @@ export default function Calculate() {
       </form>
 
       <h2 id="tdee">TDEE: {Math.floor(calculatedTDEE)}</h2>
-    </div>
+    </span>
   );
 }

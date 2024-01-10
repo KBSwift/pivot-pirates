@@ -28,7 +28,7 @@ export default function Login() {
 
       if (response.status === 200) {
         console.log("Login successful");
-        navigate("/home");
+        navigate("/");
       } else {
         const data = await response.json();
         setLoginError(data.message);
@@ -57,7 +57,7 @@ export default function Login() {
 
       if (response.status === 200) {
         console.log("Registration successful");
-        navigate("/home");
+        navigate("/");
       } else {
         const data = await response.json();
         setRegisterError(data.message);
