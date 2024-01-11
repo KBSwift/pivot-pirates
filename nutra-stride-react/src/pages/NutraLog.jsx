@@ -3,14 +3,12 @@ import axios from "axios";
 
 const NutraLog = () => {
   const [foodItem, setFoodItem] = useState("");
-  const [calories, setCalories] = useState("");
   const [logError, setLogError] = useState(null);
   const [loggedItems, setLoggedItems] = useState([]);
 
   const logFood = async (e) => {
     e.preventDefault();
 
-    // Your API credentials and URL
     const appId = "8dd733fb";
     const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
     const apiUrl = `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}`;
@@ -21,15 +19,18 @@ const NutraLog = () => {
       const data = response.data;
 
       if (response.status === 200) {
-        // Update the list of logged items
         setLoggedItems((prevItems) => [
           ...prevItems,
-          { foodItem, calories: data.calories },
+          {
+            foodItem,
+            calories: parseFloat(data.calories).toFixed(1),
+            protein: parseFloat(data.totalNutrients.PROCNT.quantity).toFixed(1),
+            fats: parseFloat(data.totalNutrients.FAT.quantity).toFixed(1),
+            carbs: parseFloat(data.totalNutrients.CHOCDF.quantity).toFixed(1),
+          },
         ]);
 
-        // Update state with the calories information
-        setCalories(data.calories);
-        console.log(`Logged food: ${foodItem}, calories: ${data.calories}`);
+        console.log(`Logged food: ${foodItem}, data: `, data);
       } else {
         setLogError(data.message);
         console.error("Food logging failed:", data.message);
@@ -50,11 +51,10 @@ const NutraLog = () => {
     setLoggedItems(updatedItems);
   };
 
-  const getTotalCalories = () => {
-    return loggedItems.reduce(
-      (total, item) => total + parseFloat(item.calories),
-      0
-    );
+  const getTotal = (nutrient) => {
+    return loggedItems
+      .reduce((total, item) => total + parseFloat(item[nutrient]), 0)
+      .toFixed(1);
   };
 
   return (
@@ -80,14 +80,19 @@ const NutraLog = () => {
             <ul>
               {loggedItems.map((item, index) => (
                 <li key={index}>
-                  {item.foodItem} - Calories: {item.calories}
+                  {item.foodItem} - Calories: {item.calories}, Protein:{" "}
+                  {item.protein}, Fats: {item.fats}, Carbs: {item.carbs}
                   <button onClick={() => handleDeleteItem(index)}>
                     Delete
                   </button>
                 </li>
               ))}
             </ul>
-            <h3>Total calories: {getTotalCalories()}</h3>
+            <h3>
+              Total calories: {getTotal("calories")}, Total protein:{" "}
+              {getTotal("protein")}, Total fats: {getTotal("fats")}, Total
+              carbs: {getTotal("carbs")}
+            </h3>
           </div>
         )}
       </form>
