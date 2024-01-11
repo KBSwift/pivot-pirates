@@ -13,6 +13,15 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    console.log("Register Email:", loginEmail);
+    console.log("Register Password:", loginPassword);
+
+    // Validation
+    if (!loginEmail || !loginPassword) {
+      setLoginError("Email and password are required.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -23,12 +32,12 @@ export default function Login() {
           username: loginEmail,
           password: loginPassword,
         }),
-        credentials: 'include',
+        credentials: "include",
       });
 
       if (response.ok) {
         console.log("Login successful");
-        navigate("/home");
+        navigate("/");
       } else {
         const data = await response.json();
         setLoginError(data.message);
@@ -40,54 +49,61 @@ export default function Login() {
     }
   };
 
- const handleRegister = async (e) => {
- e.preventDefault();
- e.stopPropagation();
- console.log("Form submitted");
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    console.log("Register Email:", registerEmail);
+    console.log("Register Password:", registerPassword);
 
-   console.log("Register Email:", registerEmail);
-   console.log("Register Password:", registerPassword);
+    // Validation
+    if (!registerEmail || !registerPassword) {
+      setRegisterError("Email and password are required.");
+      return;
+    }
 
-   try {
-     const response = await fetch("http://localhost:8080/register", {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify({
-         username: registerEmail,
-         password: registerPassword,
-         verifyPassword: registerPassword,
-       }),
-       credentials: 'include',
-     });
+    // Email format validation
+    if (!isValidEmail(registerEmail)) {
+      setRegisterError("Invalid email format.");
+      return;
+    }
 
-     console.log("Request:", {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify({
-         username: registerEmail,
-         password: registerPassword,
-       }),
-       credentials: 'include',
-     });
+    // Password length validation
+    if (registerPassword.length < 8) {
+      setRegisterError("Password must be at least 8 characters.");
+      return;
+    }
 
-     console.log("Received response:", response);
+    try {
+      const response = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: registerEmail,
+          password: registerPassword,
+          verifyPassword: registerPassword,
+        }),
+        credentials: "include",
+      });
 
-     if (!response.ok) {
-       const data = await response.json();
-       console.error("Registration failed:", data.message);
-     } else {
-       console.log("Registration successful");
-       navigate("/home");
-     }
-   } catch (error) {
-     console.error("Error during registration:", error);
-   }
- };
+      if (!response.ok) {
+        const data = await response.json();
+        console.error("Registration failed:", data.message);
+        setRegisterError(data.message);
+      } else {
+        console.log("Registration successful");
+        navigate("/");
+      }
+    } catch (error) {
+      setRegisterError("An unexpected error occurred.");
+      console.error("Error during registration:", error);
+    }
+  };
 
+  const isValidEmail = (email) => {
+    // Simple email format check
+    return email.includes("@") && email.includes(".");
+  };
 
   const handleLoginUserChange = (e) => {
     setLoginEmail(e.target.value);
@@ -99,12 +115,10 @@ export default function Login() {
 
   const handleRegisterUserChange = (e) => {
     setRegisterEmail(e.target.value);
-    console.log("Email:", e.target.value);
   };
 
   const handleRegisterPasswordChange = (e) => {
     setRegisterPassword(e.target.value);
-    console.log("Password:", e.target.value);
   };
 
   return (
@@ -113,6 +127,7 @@ export default function Login() {
       <br />
       <br />
 
+      <section id="loginsection">
       <h2>Login</h2>
       <form>
         <label htmlFor="loginemail">Email: </label>
@@ -136,10 +151,13 @@ export default function Login() {
           Login
         </button>
       </form>
+      </section>
+      
 
       <br />
       <br />
 
+    <section id="registersection">
       <h2 id="signup">No account with us yet? Register now:</h2>
       <form onSubmit={handleRegister}>
         <label htmlFor="registeremail">Email: </label>
@@ -163,6 +181,7 @@ export default function Login() {
           Register
         </button>
       </form>
+      </section>
     </div>
   );
 }

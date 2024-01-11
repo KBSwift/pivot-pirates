@@ -2,13 +2,15 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function GoalsLayout() {
   return (
-    <div className="goals-layout">
+    <span className="goals-layout">
       <h2>Personal Goals</h2>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro officia
-        sapiente tempora ea velit nesciunt beatae voluptates laboriosam
-        necessitatibus culpa, expedita vero non enim incidunt. Nam veniam
-        laudantium totam sequi.
+        Calculate your TDEE &#40;Total Daily Energy Expenditure&#41; by filling
+        out the form under Calculate your Caloric Requirements. This form uses
+        the Harris-Benedict algorithm to determine your caloric needs based on
+        your input. Please be sure to be as accurate as possible with your
+        entries. Make sure to adhere to the recommendation. You can view your
+        progress under the View your progress tab.{" "}
       </p>
 
       <nav>
@@ -17,6 +19,6 @@ export default function GoalsLayout() {
       </nav>
 
       <Outlet />
-    </div>
+    </span>
   );
 }

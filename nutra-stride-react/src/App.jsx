@@ -20,6 +20,7 @@ import StrideLog from "./pages/StrideLog";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
+      <Route path="login" element={<Login />} />
       <Route index element={<Home />} />
       <Route path="nutralog" element={<NutraLog />} />
       <Route path="stridelog" element={<StrideLog />} />
@@ -29,7 +30,6 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="*" element={<NotFound />} />
-      <Route path="login" element={<Login />} />
     </Route>
   )
 );

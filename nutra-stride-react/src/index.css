@@ -24,6 +24,7 @@ button {
   color: white;
   background: var(--primary);
   cursor: pointer;
+  margin-bottom: 30px;
 }
 /*LOGIN*/
 .login h1 {
@@ -121,4 +122,56 @@ form label span {
 /*TDEE*/
 #tdee {
   margin-top: 30px;
+}
+
+/* WEATHER WIDGET */
+.weather-widget {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-left: 16px; 
+}
+
+.weather-widget p {
+  margin: 0;
+  color: #fff;
+}
+
+/* TEMPERATURE MESSAGE */
+.temperature-message {
+  color: orangered;
+  font-weight: bold;
+}
+
+
+.nutralog form ul {
+  list-style-type: none;
+  padding: 0%;
+  margin: 10px;
+}
+
+.nutralog form li {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  margin: 10px;
+}
+
+.nutralog form li text {
+  margin-left: 10px;
+}
+
+.nutralog form li button {
+  margin: 30px; 
+}
+/*LOGIN & REGISTER STYLES CONT'D*/
+#loginsection {
+  padding: 10px;
+  max-width: 400px;
+}
+#registersection {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  max-width: 400px;
+  border-radius: 5px;
 }

@@ -23,6 +23,12 @@ public class CorsConfig {
         config.addAllowedMethod("DELETE");
         config.addExposedHeader("Access-Control-Allow-Credentials");
         config.addExposedHeader("Access-Control-Allow-Origin");
+
+        config.addAllowedHeader("Origin");
+        config.addAllowedHeader("Content-Type");
+        config.addAllowedHeader("Accept");
+        config.addAllowedHeader("Authorization");
+        
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
