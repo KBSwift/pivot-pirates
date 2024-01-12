@@ -2,6 +2,7 @@ package com.pivotpirates.nutrastride.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -15,7 +16,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login","/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/fooditems").permitAll()
+                                .requestMatchers("/login","/register","/api/fooditems").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
