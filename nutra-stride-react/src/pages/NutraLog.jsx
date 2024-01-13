@@ -13,13 +13,25 @@ export default function NutraLog() {
 
   const fetchLoggedItems = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/fooditems");
+
+          console.log("Fetching logged items...");
+
+      const response = await axios.get("http://localhost:8080/api/fooditems", {withCredentials: true,});
       if (response.status === 200) {
+
+              console.log("Logged items fetched successfully:", response.data);
+
         setLoggedItems(response.data);
       } else {
+
+              console.log("Failed to fetch logged items. Status:", response.status);
+
         setLogError("Failed to fetch logged items");
       }
     } catch (error) {
+
+          console.log("An unexpected error occurred during fetching:", error);
+
       setLogError("An unexpected error occurred during fetching.");
       console.error("Error during fetching:", error);
     }
@@ -32,24 +44,36 @@ export default function NutraLog() {
     const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
 
     try {
+
+          console.log("Logging food item...");
+
       const edamamResponse = await axios.get(
         `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}&ingr=${foodItem}`
       );
 
+console.log("Edamam Response:", edamamResponse);
+
       if (edamamResponse.status === 200) {
+
+      console.log(
+              "Protein Quantity:",
+              edamamResponse.data.totalNutrientsKCal.PROCNT_KCAL?.quantity
+            );
+
         const response = await axios.post(
           "http://localhost:8080/api/fooditems",
           {
             name: foodItem,
-            calories: parseFloat(edamamResponse.data.calories).toFixed(1),
+            calories: parseFloat(edamamResponse.data.calories
+            ).toFixed(1),
             protein: parseFloat(
-              edamamResponse.data.totalNutrients.PROCNT.quantity
+            edamamResponse.data.totalNutrientsKCal.PROCNT_KCAL?.quantity || 0
             ).toFixed(1),
             fats: parseFloat(
-              edamamResponse.data.totalNutrients.FAT.quantity
+              edamamResponse.data.totalNutrientsKCal.FAT_KCAL?.quantity || 0
             ).toFixed(1),
             carbs: parseFloat(
-              edamamResponse.data.totalNutrients.CHOCDF.quantity
+              edamamResponse.data.totalNutrientsKCal.CHOCDF_PROCNT_KCAL?.quantity || 0
             ).toFixed(1),
           }
         );
@@ -57,13 +81,21 @@ export default function NutraLog() {
         if (response.status === 200) {
           setLoggedItems((prevItems) => [...prevItems, response.data]);
           setFoodItem("");
+                  console.log("Food item logged successfully:", response.data);
+
         } else {
+                console.log("Failed to log food item. Status:", response.status);
+
           setLogError("Failed to log food item");
         }
       } else {
         setLogError("Failed to fetch nutrition data");
       }
     } catch (error) {
+
+          console.log("An unexpected error occurred during food logging:", error);
+
+
       setLogError("An unexpected error occurred during food logging.");
       console.error("Error during food logging:", error);
     }

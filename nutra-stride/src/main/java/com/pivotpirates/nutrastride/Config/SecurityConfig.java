@@ -16,11 +16,21 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(HttpMethod.GET, "/api/fooditems").permitAll()
-                                .requestMatchers("/login","/register","/api/fooditems").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/fooditems").authenticated()
+                                .requestMatchers("/login","/register","/error").permitAll()
+                                .requestMatchers("/api/fooditems/**").permitAll()
+                                .anyRequest().permitAll()
                 )
-                .httpBasic(withDefaults());
+                 .formLogin(login ->
+                login
+                        .loginPage("/login")
+                        .permitAll()
+        )
+                .logout(logout ->
+                        logout
+                                .permitAll()
+                );
+                //.httpBasic(withDefaults());
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
