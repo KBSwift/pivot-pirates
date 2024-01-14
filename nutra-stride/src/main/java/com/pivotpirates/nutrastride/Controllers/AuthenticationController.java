@@ -104,9 +104,8 @@ public class AuthenticationController extends AbstractEntity {
     }
 
     //Handles POST requests to the /login endpoint
-    @CrossOrigin
     @PostMapping("/login")
-    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+    public String processLoginForm(@RequestBody @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
         //checks for validation errors
@@ -128,7 +127,7 @@ public class AuthenticationController extends AbstractEntity {
         if (!theUsers.isMatchingPassword(password)) {
             errors.rejectValue("password", "password.invalid", "Invalid password");
             model.addAttribute("title", "Log In");
-            return "login";
+            return "redirect:/login?error";
         }
         // Sets the user in the session, indicates a successful login
         setUserInSession(request.getSession(), theUsers);

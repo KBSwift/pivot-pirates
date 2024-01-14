@@ -11,7 +11,7 @@ import com.pivotpirates.nutrastride.Models.FoodItem;
 
 @RestController
 @RequestMapping("/api/fooditems")
-@CrossOrigin (origins = "http://localhost:5173", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin (origins = "http://localhost:5173/nutralog", maxAge = 3600, allowCredentials = "true")
 public class FoodItemController {
     private final FoodItemService foodItemService;
 
@@ -21,7 +21,11 @@ public class FoodItemController {
     }
 
     @GetMapping
+<<<<<<< HEAD
     //@PreAuthorize("isAuthenticated()")
+=======
+//    @PreAuthorize("isAuthenticated()")
+>>>>>>> 18fe3d029c2826b427045382625108bdc9b1912b
     public ResponseEntity<List<FoodItem>> getAllFoodItems() {
 
         System.out.println("Received GET request to /api/fooditems");
