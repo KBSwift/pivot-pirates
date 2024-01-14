@@ -21,11 +21,6 @@ public class FoodItemController {
     }
 
     @GetMapping
-<<<<<<< HEAD
-    //@PreAuthorize("isAuthenticated()")
-=======
-//    @PreAuthorize("isAuthenticated()")
->>>>>>> 18fe3d029c2826b427045382625108bdc9b1912b
     public ResponseEntity<List<FoodItem>> getAllFoodItems() {
 
         System.out.println("Received GET request to /api/fooditems");
