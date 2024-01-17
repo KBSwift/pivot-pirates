@@ -37,9 +37,8 @@ export default function Login() {
 
       if (response.ok) {
         console.log("Login successful");
-        navigate("/");
       } else {
-        const data = await response.json();
+        const data = await response.text();
         setLoginError(data.message);
         console.error("Login failed:", data.message);
       }

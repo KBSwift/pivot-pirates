@@ -22,6 +22,7 @@ public class LoginFormDTO {
         }
 
         public void setUsername(String username) {
+            System.out.println("Loginform User: " + username);
             this.username = username;
             System.out.println("Username set to: " + username);
         }

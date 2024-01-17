@@ -1,6 +1,7 @@
 package com.pivotpirates.nutrastride.Controllers;
 
 import com.pivotpirates.nutrastride.Models.AbstractEntity;
+import com.pivotpirates.nutrastride.Models.AuthenticationService;
 import com.pivotpirates.nutrastride.Models.Users;
 import com.pivotpirates.nutrastride.Models.UserRepository;
 import com.pivotpirates.nutrastride.Models.dto.LoginFormDTO;
@@ -9,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -16,13 +19,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 @CrossOrigin (origins = "http://localhost:5173", maxAge = 3600, allowCredentials = "true")
 public class AuthenticationController extends AbstractEntity {
 
     //Allows interaction between AC and UR
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     private static final String userSessionKey = "user";
 
@@ -104,7 +110,7 @@ public class AuthenticationController extends AbstractEntity {
     }
 
     //Handles POST requests to the /login endpoint
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces= {MediaType.APPLICATION_JSON_VALUE})
     public String processLoginForm(@RequestBody @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
@@ -131,8 +137,11 @@ public class AuthenticationController extends AbstractEntity {
         }
         // Sets the user in the session, indicates a successful login
         setUserInSession(request.getSession(), theUsers);
+
+        System.out.println("User successfully set in session. User ID: " + theUsers.getId());
+
         //Redirect to /, prevents issues with using the back button after a successful login
-        return "redirect:/";
+        return "Login successful";
     }
 
     @GetMapping("/register")
