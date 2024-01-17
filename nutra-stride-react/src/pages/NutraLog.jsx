@@ -5,7 +5,7 @@ export default function NutraLog() {
   const [foodItem, setFoodItem] = useState("");
   const [logError, setLogError] = useState(null);
   const [loggedItems, setLoggedItems] = useState([]);
-  const [editingItemId, setEditingItemId] = useState(null);
+  const [editingItemId, setEditingItemId] = useState([]);
 
   useEffect(() => {
     fetchLoggedItems();
@@ -144,11 +144,16 @@ export default function NutraLog() {
     }
   };
 
-  const handleEditItem = (id) => {
-    setEditingItemId(id);
-  };
+ const handleEditItem = (id) => {
+   setEditingItemValues({
+     ...editingItemValues,
+     [id]: { ...loggedItems.find((item) => item.id === id) },
+   });
+   setEditingItemId(id);
+ };
 
   const handleCancelEdit = () => {
+    setEditingItemValues({});
     setEditingItemId(null);
   };
 
@@ -228,8 +233,8 @@ export default function NutraLog() {
                     <>
                       <input
                         type="text"
-                        value={foodItem}
-                        onChange={(e) => setFoodItem(e.target.value)}
+                        value={editingItemValues[item.id]?.name || ""}
+                        onChange={(e) => handleEditingItemChange(item.id, e.target.value)}
                       />
                       <button onClick={() => handleUpdateItem(item.id)}>
                         Update
