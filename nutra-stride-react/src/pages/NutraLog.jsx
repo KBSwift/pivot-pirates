@@ -36,6 +36,17 @@ export default function NutraLog() {
   const logFood = async (e) => {
     e.preventDefault();
 
+    if (!foodItem.trim()) {
+      setLogError("Please enter a food item.");
+      return;
+    }
+
+    // Check if the food item contains a quantity
+    if (isNaN(parseInt(foodItem))) {
+      setLogError("Please enter a quantity with your food item.");
+      return;
+    }
+
     const appId = "8dd733fb";
     const appKey = "439705ccac3ff7fb3c5efbeee90d7e4f";
 
@@ -100,6 +111,7 @@ export default function NutraLog() {
 
   const handleFoodChange = (e) => {
     setFoodItem(e.target.value);
+    setLogError(null);
   };
 
   const handleDeleteItem = async (id) => {
@@ -145,13 +157,13 @@ export default function NutraLog() {
     }
   };
 
- const handleEditItem = (id) => {
-   setEditingItemValues({
-     ...editingItemValues,
-     [id]: { ...loggedItems.find((item) => item.id === id) },
-   });
-   setEditingItemId(id);
- };
+  const handleEditItem = (id) => {
+    setEditingItemValues({
+      ...editingItemValues,
+      [id]: { ...loggedItems.find((item) => item.id === id) },
+    });
+    setEditingItemId(id);
+  };
 
   const handleCancelEdit = () => {
     setEditingItemValues({});
@@ -159,13 +171,13 @@ export default function NutraLog() {
   };
 
   const handleUpdateItem = async (id) => {
-      const updatedData = {
-        name: editingItemValues[id]?.name || "",
-        calories: parseFloat(editingItemValues[id]?.calories || 0).toFixed(1),
-        protein: parseFloat(editingItemValues[id]?.protein || 0).toFixed(1),
-        fats: parseFloat(editingItemValues[id]?.fats || 0).toFixed(1),
-        carbs: parseFloat(editingItemValues[id]?.carbs || 0).toFixed(1),
-      };
+    const updatedData = {
+      name: editingItemValues[id]?.name || "",
+      calories: parseFloat(editingItemValues[id]?.calories || 0).toFixed(1),
+      protein: parseFloat(editingItemValues[id]?.protein || 0).toFixed(1),
+      fats: parseFloat(editingItemValues[id]?.fats || 0).toFixed(1),
+      carbs: parseFloat(editingItemValues[id]?.carbs || 0).toFixed(1),
+    };
 
     if (
       Object.values(updatedData).every(
