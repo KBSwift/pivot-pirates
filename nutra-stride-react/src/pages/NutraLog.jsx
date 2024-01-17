@@ -5,6 +5,7 @@ export default function NutraLog() {
   const [foodItem, setFoodItem] = useState("");
   const [logError, setLogError] = useState(null);
   const [loggedItems, setLoggedItems] = useState([]);
+  const [editingItemValues, setEditingItemValues] = useState({});
   const [editingItemId, setEditingItemId] = useState(null);
 
   useEffect(() => {
@@ -144,45 +145,27 @@ export default function NutraLog() {
     }
   };
 
-  const handleEditItem = (id) => {
-    setEditingItemId(id);
-  };
+ const handleEditItem = (id) => {
+   setEditingItemValues({
+     ...editingItemValues,
+     [id]: { ...loggedItems.find((item) => item.id === id) },
+   });
+   setEditingItemId(id);
+ };
 
   const handleCancelEdit = () => {
+    setEditingItemValues({});
     setEditingItemId(null);
   };
 
   const handleUpdateItem = async (id) => {
-    const updatedData = {
-      name: prompt(
-        "Enter updated name",
-        loggedItems.find((item) => item.id === id)?.name
-      ),
-      calories: parseFloat(
-        prompt(
-          "Enter updated calories",
-          loggedItems.find((item) => item.id === id)?.calories
-        )
-      ).toFixed(1),
-      protein: parseFloat(
-        prompt(
-          "Enter updated protein",
-          loggedItems.find((item) => item.id === id)?.protein
-        )
-      ).toFixed(1),
-      fats: parseFloat(
-        prompt(
-          "Enter updated fats",
-          loggedItems.find((item) => item.id === id)?.fats
-        )
-      ).toFixed(1),
-      carbs: parseFloat(
-        prompt(
-          "Enter updated carbs",
-          loggedItems.find((item) => item.id === id)?.carbs
-        )
-      ).toFixed(1),
-    };
+      const updatedData = {
+        name: editingItemValues[id]?.name || "",
+        calories: parseFloat(editingItemValues[id]?.calories || 0).toFixed(1),
+        protein: parseFloat(editingItemValues[id]?.protein || 0).toFixed(1),
+        fats: parseFloat(editingItemValues[id]?.fats || 0).toFixed(1),
+        carbs: parseFloat(editingItemValues[id]?.carbs || 0).toFixed(1),
+      };
 
     if (
       Object.values(updatedData).every(
@@ -199,6 +182,16 @@ export default function NutraLog() {
     return Math.floor(
       loggedItems.reduce((total, item) => total + parseFloat(item[nutrient]), 0)
     );
+  };
+
+  const handleEditingItemChange = (id, value) => {
+    setEditingItemValues({
+      ...editingItemValues,
+      [id]: {
+        ...editingItemValues[id],
+        name: value,
+      },
+    });
   };
 
   return (
@@ -228,8 +221,8 @@ export default function NutraLog() {
                     <>
                       <input
                         type="text"
-                        value={foodItem}
-                        onChange={(e) => setFoodItem(e.target.value)}
+                        value={editingItemValues[item.id]?.name || ""}
+                        onChange={(e) => handleEditingItemChange(item.id, e.target.value)}
                       />
                       <button onClick={() => handleUpdateItem(item.id)}>
                         Update
