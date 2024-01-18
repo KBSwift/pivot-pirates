@@ -196,12 +196,12 @@ export default function NutraLog() {
     );
   };
 
-  const handleEditingItemChange = (id, value) => {
+  const handleEditingItemChange = (id, property, value) => {
     setEditingItemValues({
       ...editingItemValues,
       [id]: {
         ...editingItemValues[id],
-        name: value,
+        [property]: value,
       },
     });
   };
@@ -234,7 +234,37 @@ export default function NutraLog() {
                       <input
                         type="text"
                         value={editingItemValues[item.id]?.name || ""}
-                        onChange={(e) => handleEditingItemChange(item.id, e.target.value)}
+                        onChange={(e) =>
+                          handleEditingItemChange(item.id, "name", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={editingItemValues[item.id]?.calories || ""}
+                        onChange={(e) =>
+                          handleEditingItemChange(item.id, "calories", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={editingItemValues[item.id]?.protein || ""}
+                        onChange={(e) =>
+                          handleEditingItemChange(item.id, "protein", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={editingItemValues[item.id]?.fats || ""}
+                        onChange={(e) =>
+                          handleEditingItemChange(item.id, "fats", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={editingItemValues[item.id]?.carbs || ""}
+                        onChange={(e) =>
+                          handleEditingItemChange(item.id, "carbs", e.target.value)
+                        }
                       />
                       <button onClick={() => handleUpdateItem(item.id)}>
                         Update
@@ -269,3 +299,4 @@ export default function NutraLog() {
     </div>
   );
 }
+

@@ -6,12 +6,11 @@ export default function RootLayout() {
   const location = useLocation();
   const [weatherData, setWeatherData] = useState(null);
 
-  // Check if the current route is /login
   const isLoginPage = location.pathname === "/login";
 
   const fetchWeatherData = async () => {
     try {
-      const cityName = "Saint Louis"; // Replace with your desired city name
+      const cityName = "Saint Louis"; 
       const encodedCityName = encodeURIComponent(cityName);
 
       const response = await axios.get(
