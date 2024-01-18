@@ -38,6 +38,7 @@ export default function Login() {
       if (response.ok) {
         console.log("Login successful");
         navigate("/");
+        alert("Login successful.");
       } else {
         const data = await response.json();
         setLoginError(data.message);
@@ -93,6 +94,7 @@ export default function Login() {
       } else {
         console.log("Registration successful");
         navigate("/");
+        alert("Registration successful");
       }
     } catch (error) {
       setRegisterError("An unexpected error occurred.");
@@ -128,59 +130,58 @@ export default function Login() {
       <br />
 
       <section id="loginsection">
-      <h2>Login</h2>
-      <form>
-        <label htmlFor="loginemail">Email: </label>
-        <input
-          id="loginemail"
-          type="email"
-          value={loginEmail}
-          required
-          onChange={handleLoginUserChange}
-        />
-        <label htmlFor="loginpassword">Password: </label>
-        <input
-          id="loginpassword"
-          type="password"
-          value={loginPassword}
-          required
-          onChange={handleLoginPasswordChange}
-        />
-        {loginError && <p style={{ color: "red" }}>{loginError}</p>}
-        <button type="submit" onClick={handleLogin}>
-          Login
-        </button>
-      </form>
+        <h2>Login</h2>
+        <form>
+          <label htmlFor="loginemail">Email: </label>
+          <input
+            id="loginemail"
+            type="email"
+            value={loginEmail}
+            required
+            onChange={handleLoginUserChange}
+          />
+          <label htmlFor="loginpassword">Password: </label>
+          <input
+            id="loginpassword"
+            type="password"
+            value={loginPassword}
+            required
+            onChange={handleLoginPasswordChange}
+          />
+          {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+          <button type="submit" onClick={handleLogin}>
+            Login
+          </button>
+        </form>
       </section>
-      
 
       <br />
       <br />
 
-    <section id="registersection">
-      <h2 id="signup">No account with us yet? Register now:</h2>
-      <form onSubmit={handleRegister}>
-        <label htmlFor="registeremail">Email: </label>
-        <input
-          id="registeremail"
-          type="email"
-          value={registerEmail}
-          required
-          onChange={handleRegisterUserChange}
-        />
-        <label htmlFor="registerpassword">Password: </label>
-        <input
-          id="registerpassword"
-          type="password"
-          value={registerPassword}
-          required
-          onChange={handleRegisterPasswordChange}
-        />
-        {registerError && <p style={{ color: "red" }}>{registerError}</p>}
-        <button type="submit" onClick={handleRegister}>
-          Register
-        </button>
-      </form>
+      <section id="registersection">
+        <h2 id="signup">No account with us yet? Register now:</h2>
+        <form onSubmit={handleRegister}>
+          <label htmlFor="registeremail">Email: </label>
+          <input
+            id="registeremail"
+            type="email"
+            value={registerEmail}
+            required
+            onChange={handleRegisterUserChange}
+          />
+          <label htmlFor="registerpassword">Password: </label>
+          <input
+            id="registerpassword"
+            type="password"
+            value={registerPassword}
+            required
+            onChange={handleRegisterPasswordChange}
+          />
+          {registerError && <p style={{ color: "red" }}>{registerError}</p>}
+          <button type="submit" onClick={handleRegister}>
+            Register
+          </button>
+        </form>
       </section>
     </div>
   );
